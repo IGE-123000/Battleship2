@@ -1,4 +1,4 @@
-- name: Wait for SonarCloud analysis to complete
+ name: Wait for SonarCloud analysis to complete
   uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
   with:
     scanMetadataReportFile: .scannerwork/report-task.txt
