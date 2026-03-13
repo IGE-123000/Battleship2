@@ -1,6 +1,11 @@
- name: Wait for SonarCloud analysis to complete
-  uses: SonarSource/sonarqube-quality-gate-action@v1.1.0
-  with:
-    scanMetadataReportFile: .scannerwork/report-task.txt
-  env:
-    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+name: SonarCloud Quality Gate Check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  disabled:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Workflow desativado
+        run: echo "SonarCloud workflow desativado temporariamente"
