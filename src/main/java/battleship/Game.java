@@ -157,14 +157,9 @@ public class Game implements IGame
 	private Integer countSinks;
 	private int moveNumber;
 
-	private BoardGUI gui;
-
-
 	//------------------------------------------------------------------
 	public Game(IFleet myFleet)
 	{
-		this.gui = new BoardGUI();
-
 		this.moveNumber = 1;
 
 		this.alienMoves = new ArrayList<IMove>();
@@ -348,9 +343,6 @@ public class Game implements IGame
 		alienMoves.add(move);
 
 		moveNumber++;
-
-		gui.updateBoard(this.myFleet, this.alienMoves);
-
 	}
 
 	/**
