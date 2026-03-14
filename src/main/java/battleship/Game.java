@@ -440,4 +440,7 @@ public class Game implements IGame
 			System.out.println("| Maldito sejas, Java Sparrow, eu voltarei, glub glub glub ... |");
 			System.out.println("+--------------------------------------------------------------+");
 	}
+	public void exportMovesPdf(String fileName) {
+		PdfExporter.exportMovesToPdf(this.alienMoves, fileName);
+	}
 }
