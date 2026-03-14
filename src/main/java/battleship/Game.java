@@ -160,6 +160,8 @@ public class Game implements IGame
 	//------------------------------------------------------------------
 	public Game(IFleet myFleet)
 	{
+		ShotDatabase.initializeDatabase();
+
 		this.moveNumber = 1;
 
 		this.alienMoves = new ArrayList<IMove>();
@@ -370,12 +372,15 @@ public class Game implements IGame
 		}
 
 		IShip ship = myFleet.shipAt(pos);
-		if (ship == null)
+		if (ship == null) {
+			ShotDatabase.saveShot(pos.getRow(), pos.getColumn(), "MISS");
 			return new ShotResult(true, false, null, false);
-		else
+		}else
 		{
 			ship.shoot(pos);
 			countHits++;
+
+			ShotDatabase.saveShot(pos.getRow(), pos.getColumn(), "HIT");
 			if (!ship.stillFloating()) {
 				countSinks++;
 			}
