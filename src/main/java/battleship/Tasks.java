@@ -5,6 +5,8 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.apache.commons.lang3.time.StopWatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The type Tasks.
@@ -69,7 +71,22 @@ public class Tasks {
 					break;
 				case RAJADA:
 					if (game != null) {
+						// 1. Inicia o cronómetro AQUI, mesmo antes de pedir os tiros
+						StopWatch watch = new StopWatch();
+						watch.start();
+
+						// O jogo pede o input e processa os tiros
 						game.readEnemyFire(in);
+
+						// 2. Pára o cronómetro AQUI, logo após a jogada ser recebida
+						watch.stop();
+
+						// 3. Imprime a duração na consola
+						long tempoSegundos = watch.getTime(TimeUnit.SECONDS);
+						long tempoMilisegundos = watch.getTime(TimeUnit.MILLISECONDS);
+						System.out.println("\n⏱️ Tempo de resposta da rajada: " + tempoSegundos + " segundos (" + tempoMilisegundos + " ms).");
+
+						// Imprime o resto do estado do jogo
 						myFleet.printStatus();
 						game.printMyBoard(true, false);
 
@@ -77,6 +94,8 @@ public class Tasks {
 							game.over();
 							System.exit(0);
 						}
+					} else {
+						System.out.println("Tens de gerar ou ler uma frota primeiro!");
 					}
 					break;
 				case SIMULA:
