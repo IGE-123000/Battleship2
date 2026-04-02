@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.util.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Game implements IGame
 {
@@ -160,6 +162,8 @@ public class Game implements IGame
 	//------------------------------------------------------------------
 	public Game(IFleet myFleet)
 	{
+		ShotDatabase.initializeDatabase();
+
 		this.moveNumber = 1;
 
 		this.alienMoves = new ArrayList<IMove>();
@@ -370,12 +374,15 @@ public class Game implements IGame
 		}
 
 		IShip ship = myFleet.shipAt(pos);
-		if (ship == null)
+		if (ship == null) {
+			ShotDatabase.saveShot(pos.getRow(), pos.getColumn(), "MISS");
 			return new ShotResult(true, false, null, false);
-		else
+		}else
 		{
 			ship.shoot(pos);
 			countHits++;
+
+			ShotDatabase.saveShot(pos.getRow(), pos.getColumn(), "HIT");
 			if (!ship.stillFloating()) {
 				countSinks++;
 			}
@@ -443,4 +450,41 @@ public class Game implements IGame
 	public void exportMovesPdf(String fileName) {
 		PdfExporter.exportMovesToPdf(this.alienMoves, fileName);
 	}
+
+	/**
+	 * Processa uma rajada de tiros recebida em formato JSON pelo LLM.
+	 * @param jsonPayload A string JSON contendo as coordenadas.
+	 */
+	public void processEnemyFireJson(String jsonPayload) {
+		ObjectMapper mapper = new ObjectMapper();
+		List<IPosition> shots = new ArrayList<>();
+
+		try {
+			JsonNode rootArray = mapper.readTree(jsonPayload);
+			if (rootArray.isArray()) {
+				for (JsonNode node : rootArray) {
+					String rowStr = node.get("row").asText().toUpperCase();
+					int col = node.get("column").asInt();
+					char rowChar = rowStr.charAt(0);
+					shots.add(new Position(rowChar, col));
+				}
+			}
+			List<IGame.ShotResult> results = new ArrayList<>();
+			for (IPosition pos : shots) {
+				results.add(this.fireSingleShot(pos,false));
+			}
+			int moveNumber = this.myMoves.size() + 1;
+			Move currentMove = new Move(moveNumber, shots, results);
+			this.myMoves.add(currentMove);
+
+			// Chama o método que você ativou para imprimir o JSON de resposta
+			currentMove.processEnemyFire(true);
+
+		} catch (Exception e) {
+			System.out.println("Erro ao processar o JSON: " + e.getMessage());
+			System.out.println("Certifique-se que o JSON foi colado numa ÚNICA linha e tem o formato correto.");
+		}
+	}
+
 }
+

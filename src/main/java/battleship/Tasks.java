@@ -5,6 +5,8 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.apache.commons.lang3.time.StopWatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The type Tasks.
@@ -33,6 +35,7 @@ public class Tasks {
 	private static final String STATUS = "estado";
 	private static final String SIMULA = "simula";
 	private static final String PDF = "pdf";
+	private static final String JSON_RAJADA = "json";
 
 	/**
 	 * This task also tests the fighting element of a round of three shots
@@ -69,7 +72,22 @@ public class Tasks {
 					break;
 				case RAJADA:
 					if (game != null) {
+						// 1. Inicia o cronómetro AQUI, mesmo antes de pedir os tiros
+						StopWatch watch = new StopWatch();
+						watch.start();
+
+						// O jogo pede o input e processa os tiros
 						game.readEnemyFire(in);
+
+						// 2. Pára o cronómetro AQUI, logo após a jogada ser recebida
+						watch.stop();
+
+						// 3. Imprime a duração na consola
+						long tempoSegundos = watch.getTime(TimeUnit.SECONDS);
+						long tempoMilisegundos = watch.getTime(TimeUnit.MILLISECONDS);
+						System.out.println("\n⏱️ Tempo de resposta da rajada: " + tempoSegundos + " segundos (" + tempoMilisegundos + " ms).");
+
+						// Imprime o resto do estado do jogo
 						myFleet.printStatus();
 						game.printMyBoard(true, false);
 
@@ -77,6 +95,8 @@ public class Tasks {
 							game.over();
 							System.exit(0);
 						}
+					} else {
+						System.out.println("Tens de gerar ou ler uma frota primeiro!");
 					}
 					break;
 				case SIMULA:
@@ -108,6 +128,28 @@ public class Tasks {
 				case PDF:
 					game.exportMovesPdf("jogadas.pdf");
 					break;
+				// ... outros cases (como MAPA, RAJADA, etc) ...
+
+				case JSON_RAJADA:
+					if (game != null) {
+						String jsonPayload = in.nextLine().trim();
+
+						if (jsonPayload.isEmpty()) {
+							System.out.println("Erro: Faltou colar o JSON à frente do comando!");
+							break;
+						}
+						((Game) game).processEnemyFireJson(jsonPayload);
+						myFleet.printStatus();
+						game.printMyBoard(true, false);
+
+						if (game.getRemainingShips() == 0) {
+							game.over();
+							System.exit(0);
+						}
+					} else {
+						System.out.println("Tens de gerar ou ler uma frota primeiro!");
+					}
+					break;
 				default:
 					System.out.println("Que comando é esse??? Repete ...");
 			}
@@ -132,6 +174,7 @@ public class Tasks {
 		System.out.println("- " + TIROS + ": Lista os tiros válidos realizados (* = tiro em navio, o = tiro na água)");
 		System.out.println("- " + DESISTIR + ": Encerra o jogo.");
 		System.out.println("- " + PDF + ": Gera pdf das jogadas");
+		System.out.println("- " + JSON_RAJADA + ": Submete uma rajada no formato JSON do LLM.");
 		System.out.println("===============================================================");
 	}
 	/**
