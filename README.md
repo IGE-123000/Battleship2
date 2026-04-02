@@ -1,5 +1,7 @@
 # ⚓ Battleship 2.0
 
+https://www.youtube.com/watch?v=Na3O1-CdbA0 link video parte B
+
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![Java Version](https://img.shields.io/badge/Java-17%2B-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
