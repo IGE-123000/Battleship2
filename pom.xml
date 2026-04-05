@@ -13,6 +13,8 @@
 	<url>https://github.com/britoeabreu/Battleship2.git</url>
 
 	<properties>
+		<sonar.projectKey>IGE-123000_Battleship2</sonar.projectKey>
+		<sonar.organization>ige-123000</sonar.organization>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<maven.compiler.source>21</maven.compiler.source>
@@ -36,11 +38,6 @@
 
 	<dependencies>
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.14.0</version>
-		</dependency>
 
 		<dependency>
 			<groupId>com.github.librepdf</groupId>
