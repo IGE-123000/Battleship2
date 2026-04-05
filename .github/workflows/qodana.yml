@@ -1,0 +1,25 @@
+name: Deteção de Code Smells (Qodana)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  qodana:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: write
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Avaliação Qodana (Long Parameter List)
+        uses: JetBrains/qodana-action@v2023.2
+        with:
+          args: --profile-name,qodana.recommended
