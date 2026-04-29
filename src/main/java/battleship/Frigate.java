@@ -21,14 +21,10 @@ public class Frigate extends Ship {
 
 		switch (bearing) {
 			case NORTH:
-				addVerticalPositions(pos);
-				break;
 			case SOUTH:
 				addVerticalPositions(pos);
 				break;
 			case EAST:
-				addHorizontalPositions(pos);
-				break;
 			case WEST:
 				addHorizontalPositions(pos);
 				break;
