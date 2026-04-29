@@ -38,4 +38,9 @@ public class Frigate extends Ship {
 				break;
 		}
 	}
+
+	private void addVerticalPositions(IPosition pos) {
+		for (int r = 0; r < this.getSize(); r++)
+			getPositions().add(new Position(pos.getRow() + r, pos.getColumn()));
+	}
 }
