@@ -5,6 +5,7 @@ package battleship;
  * It is positioned on the game board based on its bearing and initial position.
  *
  * Author: britoeabreu
+ *
  * Date: 2023-10-10
  * Time: 15:30
  */
