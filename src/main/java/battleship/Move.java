@@ -164,17 +164,7 @@ public class Move implements IMove {
 		// Criar a lista de barcos afundados
 		addSunkBoatsToResponse(sunkBoatsCount, response);
 
-		// Criar a lista de acertos em barcos que não foram afundados
-		List<Map<String, Object>> boatHits = new ArrayList<>();
-		for (Map.Entry<String, Integer> entry : hitsPerBoat.entrySet()) {
-			if (!sunkBoatsCount.containsKey(entry.getKey())) {
-				Map<String, Object> boat = new HashMap<>();
-				boat.put("type", entry.getKey());
-				boat.put("hits", entry.getValue());
-				boatHits.add(boat);
-			}
-		}
-		response.put("hitsOnBoats", boatHits);
+		addHitsOnBoatsToResponse(hitsPerBoat, sunkBoatsCount, response);
 
 		// Serializar o JSON utilizando Jackson
 		return serializeResponse(response);
