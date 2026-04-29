@@ -21,8 +21,7 @@ public class Frigate extends Ship {
 
 		switch (bearing) {
 			case NORTH:
-				for (int r = 0; r < this.getSize(); r++)
-					getPositions().add(new Position(pos.getRow() + r, pos.getColumn()));
+				addVerticalPositions(pos);
 				break;
 			case SOUTH:
 				for (int r = 0; r < this.getSize(); r++)
