@@ -24,7 +24,8 @@ public class Frigate extends Ship {
 				addVerticalPositions(pos);
 				break;
 			case SOUTH:
-				addVerticalPositions(pos);
+				for (int r = 0; r < this.getSize(); r++)
+					getPositions().add(new Position(pos.getRow() + r, pos.getColumn()));
 				break;
 			case EAST:
 				for (int c = 0; c < this.getSize(); c++)
@@ -35,11 +36,6 @@ public class Frigate extends Ship {
 					getPositions().add(new Position(pos.getRow(), pos.getColumn() + c));
 				break;
 		}
-	}
-
-	private void addVerticalPositions(IPosition pos) {
-		for (int r = 0; r < this.getSize(); r++)
-			getPositions().add(new Position(pos.getRow() + r, pos.getColumn()));
 	}
 
 	private void addVerticalPositions(IPosition pos) {
