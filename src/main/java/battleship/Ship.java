@@ -3,6 +3,8 @@
  */
 package battleship;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -58,25 +60,25 @@ public abstract class Ship implements IShip
 		case BARCA:
 			s = new Barge(bearing, pos);
 			break;
-        case CARAVELA:
-            s = new Caravel(bearing, pos);
+		case CARAVELA:
+			s = new Caravel(bearing, pos);
 			break;
-        case NAU:
-            s = new Carrack(bearing, pos);
+		case NAU:
+			s = new Carrack(bearing, pos);
 			break;
-        case FRAGATA:
-            s = new Frigate(bearing, pos);
+		case FRAGATA:
+			s = new Frigate(bearing, pos);
 			break;
-        case GALEAO:
-            s = new Galleon(bearing, pos);
+		case GALEAO:
+			s = new Galleon(bearing, pos);
 			break;
-        default:
-            s = null;
-        }
-        return s;
-    }
+		default:
+			s = null;
+		}
+		return s;
+	}
 
-    //---------------------------------------------------------
+	//---------------------------------------------------------
 
 	/**
 	 * The Category.
