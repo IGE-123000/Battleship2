@@ -177,6 +177,10 @@ public class Move implements IMove {
 		response.put("hitsOnBoats", boatHits);
 
 		// Serializar o JSON utilizando Jackson
+		return serializeResponse(response);
+	}
+
+	private static String serializeResponse(Map<String, Object> response) {
 		String jsonString;
 
 		// Serializar os tiros gerados em JSON usando a biblioteca Jackson
