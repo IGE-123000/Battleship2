@@ -48,11 +48,15 @@ public abstract class Ship implements IShip
 		assert bearing != null;
 		assert pos != null;
 
-        Ship s;
-        switch (shipKind)
-        {
-        case BARCA:
-            s = new Barge(bearing, pos);
+		return createShipFromKind(shipKind, bearing, pos);
+	}
+
+	private static @Nullable Ship createShipFromKind(String shipKind, Compass bearing, Position pos) {
+		Ship s;
+		switch (shipKind)
+		{
+		case BARCA:
+			s = new Barge(bearing, pos);
 			break;
         case CARAVELA:
             s = new Caravel(bearing, pos);
