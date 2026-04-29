@@ -53,27 +53,27 @@ public abstract class Ship implements IShip
 		return createShipFromKind(shipKind, bearing, pos);
 	}
 
-	private static @Nullable Ship createShipFromKind(String shipKind, Compass bearing, Position pos) {
+	private static Ship createShipFromKind(String shipKind, Compass bearing, Position pos) {
 		Ship s;
 		switch (shipKind)
 		{
-		case BARCA:
-			s = new Barge(bearing, pos);
-			break;
-		case CARAVELA:
-			s = new Caravel(bearing, pos);
-			break;
-		case NAU:
-			s = new Carrack(bearing, pos);
-			break;
-		case FRAGATA:
-			s = new Frigate(bearing, pos);
-			break;
-		case GALEAO:
-			s = new Galleon(bearing, pos);
-			break;
-		default:
-			s = null;
+			case BARCA:
+				s = new Barge(bearing, pos);
+				break;
+			case CARAVELA:
+				s = new Caravel(bearing, pos);
+				break;
+			case NAU:
+				s = new Carrack(bearing, pos);
+				break;
+			case FRAGATA:
+				s = new Frigate(bearing, pos);
+				break;
+			case GALEAO:
+				s = new Galleon(bearing, pos);
+				break;
+			default:
+				s = null;
 		}
 		return s;
 	}
