@@ -27,12 +27,10 @@ public class Frigate extends Ship {
 				addVerticalPositions(pos);
 				break;
 			case EAST:
-				for (int c = 0; c < this.getSize(); c++)
-					getPositions().add(new Position(pos.getRow(), pos.getColumn() + c));
+				addHorizontalPositions(pos);
 				break;
 			case WEST:
-				for (int c = 0; c < this.getSize(); c++)
-					getPositions().add(new Position(pos.getRow(), pos.getColumn() + c));
+				addHorizontalPositions(pos);
 				break;
 		}
 	}
