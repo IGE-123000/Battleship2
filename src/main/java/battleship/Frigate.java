@@ -20,12 +20,10 @@ public class Frigate extends Ship {
 		super("Fragata", bearing, pos, 4);
 
 		switch (bearing) {
-			case NORTH:
-			case SOUTH:
+			case NORTH, SOUTH:
 				addVerticalPositions(pos);
 				break;
-			case EAST:
-			case WEST:
+			case EAST, WEST:
 				addHorizontalPositions(pos);
 				break;
 		}
