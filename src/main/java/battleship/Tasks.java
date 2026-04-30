@@ -51,13 +51,11 @@ public class Tasks {
 			switch (command) {
 				case GERAFROTA:
 					myFleet = Fleet.createRandom();
-					game = new Game(myFleet);
-					game.printMyBoard(false, true);
+					game = intializeGame(myFleet);
 					break;
 				case LEFROTA:
 					myFleet = buildFleet(in);
-					game = new Game(myFleet);
-					game.printMyBoard(false, true);
+					game = intializeGame(myFleet);
 					break;
 				case STATUS:
 					if (myFleet != null)
@@ -115,6 +113,13 @@ public class Tasks {
 			command = in.next();
 		}
 		System.out.println(GOODBYE_MESSAGE);
+	}
+
+	private static @NotNull IGame intializeGame(IFleet myFleet) {
+		IGame game;
+		game = new Game(myFleet);
+		game.printMyBoard(false, true);
+		return game;
 	}
 
 	/**

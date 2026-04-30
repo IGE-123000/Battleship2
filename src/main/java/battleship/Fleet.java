@@ -11,6 +11,13 @@ import java.util.List;
  */
 public class Fleet implements IFleet
 {
+
+	public static final String GALEAO = "galeao";
+	public static final String FRAGATA = "fragata";
+	public static final String NAU = "nau";
+	public static final String CARAVELA = "caravela";
+	public static final String BARCA = "barca";
+
 	/**
 	 * Creates a randomly generated fleet containing ships of various predefined types.
 	 * Each ship is assigned a random bearing and position. If a ship cannot be added
@@ -24,29 +31,34 @@ public class Fleet implements IFleet
 
 		// Define the types of ships to be added
 		String[] shipTypes =
-					{"galeao",                           // 1 galleon
-				 	"fragata",                           // 1 frigate
- 				 	"nau", "nau",                        // 2 carracks
-					"caravela", "caravela", "caravela",  // 3 caravels
-					"barca", "barca", "barca", "barca"}; // 4 barges
+					{GALEAO,                           // 1 galleon
+							FRAGATA,                           // 1 frigate
+							NAU, NAU,                        // 2 carracks
+							CARAVELA, CARAVELA, CARAVELA,  // 3 caravels
+							BARCA, BARCA, BARCA, BARCA}; // 4 barges
 
 		int fleetSize = 0;
 
 		while (fleetSize < shipTypes.length) {
 
 			// Build the ship
-			Ship ship = Ship.buildShip(shipTypes[fleetSize], Compass.randomBearing(), Position.randomPosition());
-
-			// Attempt to add the ship to the fleet
-			if (ship != null && randomFleet.addShip(ship)) {
-				fleetSize++; // Increment count if ship is successfully added
-			}
+			fleetSize = tryAddRandomShip(shipTypes, fleetSize, randomFleet);
 		}
 		return randomFleet;
 	}
 
+	private static int tryAddRandomShip(String[] shipTypes, int fleetSize, Fleet randomFleet) {
+		Ship ship = Ship.buildShip(shipTypes[fleetSize], Compass.randomBearing(), Position.randomPosition());
 
-    // -----------------------------------------------------
+		// Attempt to add the ship to the fleet
+		if (ship != null && randomFleet.addShip(ship)) {
+			fleetSize++; // Increment count if ship is successfully added
+		}
+		return fleetSize;
+	}
+
+
+	// -----------------------------------------------------
 
 	/**
 	 * The Ships.
@@ -237,13 +249,6 @@ public class Fleet implements IFleet
 	public void printStatus()
     {
 		System.out.println("Estado da Frota: " + this.getFloatingShips().size() + " a flutuar, " + this.getSunkShips().size() + " afundados!");
-//		printAllShips();
-//		printFloatingShips();
-//		printShipsByCategory("Galeao");
-//		printShipsByCategory("Fragata");
-//		printShipsByCategory("Nau");
-//		printShipsByCategory("Caravela");
-//		printShipsByCategory("Barca");
     }
 
 	/**
