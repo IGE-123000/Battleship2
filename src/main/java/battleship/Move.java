@@ -162,28 +162,15 @@ public class Move implements IMove {
 		response.put("missedShots", missedShots);
 
 		// Criar a lista de barcos afundados
-		List<Map<String, Object>> sunkBoats = new ArrayList<>();
-		for (Map.Entry<String, Integer> entry : sunkBoatsCount.entrySet()) {
-			Map<String, Object> boat = new HashMap<>();
-			boat.put("type", entry.getKey());
-			boat.put("count", entry.getValue());
-			sunkBoats.add(boat);
-		}
-		response.put("sunkBoats", sunkBoats);
+		addSunkBoatsToResponse(sunkBoatsCount, response);
 
-		// Criar a lista de acertos em barcos que não foram afundados
-		List<Map<String, Object>> boatHits = new ArrayList<>();
-		for (Map.Entry<String, Integer> entry : hitsPerBoat.entrySet()) {
-			if (!sunkBoatsCount.containsKey(entry.getKey())) {
-				Map<String, Object> boat = new HashMap<>();
-				boat.put("type", entry.getKey());
-				boat.put("hits", entry.getValue());
-				boatHits.add(boat);
-			}
-		}
-		response.put("hitsOnBoats", boatHits);
+		addHitsOnBoatsToResponse(hitsPerBoat, sunkBoatsCount, response);
 
 		// Serializar o JSON utilizando Jackson
+		return serializeResponse(response);
+	}
+
+	private static String serializeResponse(Map<String, Object> response) {
 		String jsonString;
 
 		// Serializar os tiros gerados em JSON usando a biblioteca Jackson
@@ -201,5 +188,30 @@ public class Move implements IMove {
 
 		// Retornar o JSON
 		return jsonString;
+	}
+
+	private static void addHitsOnBoatsToResponse(Map<String, Integer> hitsPerBoat, Map<String, Integer> sunkBoatsCount, Map<String, Object> response) {
+		// Criar a lista de acertos em barcos que não foram afundados
+		List<Map<String, Object>> boatHits = new ArrayList<>();
+		for (Map.Entry<String, Integer> entry : hitsPerBoat.entrySet()) {
+			if (!sunkBoatsCount.containsKey(entry.getKey())) {
+				Map<String, Object> boat = new HashMap<>();
+				boat.put("type", entry.getKey());
+				boat.put("hits", entry.getValue());
+				boatHits.add(boat);
+			}
+		}
+		response.put("hitsOnBoats", boatHits);
+	}
+
+	private static void addSunkBoatsToResponse(Map<String, Integer> sunkBoatsCount, Map<String, Object> response) {
+		List<Map<String, Object>> sunkBoats = new ArrayList<>();
+		for (Map.Entry<String, Integer> entry : sunkBoatsCount.entrySet()) {
+			Map<String, Object> boat = new HashMap<>();
+			boat.put("type", entry.getKey());
+			boat.put("count", entry.getValue());
+			sunkBoats.add(boat);
+		}
+		response.put("sunkBoats", sunkBoats);
 	}
 }
